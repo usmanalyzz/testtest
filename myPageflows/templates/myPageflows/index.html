@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Page Flows</title>
+  </head>
+  <body>
+    <header class="pageflows-header">
+      <div class="pageflows-header-container">
+        <div class="pageflows-header-main">
+          <div class="pageflows-logo">
+            <img src="media/image/logo.png" alt="Page-Flows-Logo" />
+          </div>
+          <div class="pageflow-searchbar">
+            <i class="fa-solid fa-magnifying-glass icon"></i>
+            <input type="text" placeholder="Search" />
+          </div>
+        </div>
+        <div class="pageflows-header-nav">
+          <ul>
+            <li class="active">
+              <a href="">IOS</a>
+            </li>
+            <li class="active"><a href="">ANDROID</a></li>
+            <li class="active"><a href="">WEB</a></li>
+            <li class="active"><a href="">EMAILS</a></li>
+          </ul>
+        </div>
+        <div class="pageflows-header-right-menu">
+          <ul>
+            <div class="get-premium-menu">
+              <a href="">SIGN IN</a>
+            </div>
+            <div class="get-premium-menu">
+              <a href="">GET PREMIUM</a>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div class="pageflows-header-bottom-nav">
+        <div class="userflow-menu">
+          <ul class="userflow-menu-nav">
+            <div class="userflow-menu-dropdown">
+              <span>USER FLOWS</span>
+              <i class="fa-solid fa-caret-down"></i>
+              <div class="dropdown-content">
+                <li class="active">USER FLOWS</li>
+                <li class="active">PRODUCTS</li>
+                <li class="active">UI ELEMENTS</li>
+                <li class="active">SCREENS</li>
+              </div>
+            </div>
+          </ul>
+          <div class="main-navbar-menu">
+            <ul class="main-navbar">
+                {% for item in nav_items %}
+                    <li class="active">
+                      <a href="{{ item.url }}">
+                        {{ item.title }}
+                      </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        </div>
+        <div class="userflow-right-menu">
+          <ul>
+            <li class="userflow-right-dropdown-open">
+              <span>SORT</span>
+              <i class="fa-solid fa-bars"></i>
+              <div class="dropdown-content"></div>
+              <ul>
+                <li>
+                  <a href="">MOST VIEWED</a>
+                </li>
+                <li>
+                  <a href="">RECENTLY ADDED</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <section class="IOS-users">
+      <div class="pageflows-ios-user">
+        <h1 class="IOS">iOS User FLows</h1>
+        <p class="para">Learn from proven products</p>
+      </div>
+    </section>
+
+
+    <section class="main-onB">
+      <section class="ONBOARDING">
+        <div class="services">
+            {% for product in products %}
+            <div class="onB">
+                <img src="{{ product.logo.url }}" alt="{{ product.title }}" />
+                <div class="text-content">
+                    <h4>{{ product.title }}</h4>
+                    <p>{{ product.description }}</p>
+                </div>
+            </div>
+            <div class="icon">
+                <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
+                <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
+            </div>
+            {% endfor %}
+        </div>
+
+        <section class="images">
+            <div class="img">
+                {% for product in products %}
+                <div class="img1">
+                    <img src="{{ product.image.url }}" alt="{{ product.title }}" />
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </section>
+    </section>
+
+
+    <footer class="footer">
+      <div class="footer-nav">
+        <ul>
+          <li><a href="">Home</a></li>
+          <li><a href="">Blog</a></li>
+          <li><a href="">Submit A Request</a></li>
+          <li><a href="">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-copy">
+        <img src="media/image/logo.png" alt="" />
+        <div class="copy-text">
+          Design better user flows. Learn from proven products. <br />Pageflow ©
+          Copyright 2024. All rights reserved
+        </div>
+      </div>
+      <div class="links">
+        <p>Terms & Privacy</p>
+        <div class="link-icons">
+          <i class="fa-brands fa-x-twitter"></i>
+          <i class="fa-brands fa-linkedin"></i>
+          <i class="fa-brands fa-pinterest-p"></i>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
