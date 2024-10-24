@@ -107,22 +107,25 @@
     <section class="main-onB">
       <section class="ONBOARDING">
         <div class="services">
-            {% for product in products %}
-            <div class="onB">
-                <img src="{{ product.logo.url }}" alt="{{ product.title }}" />
-                <div class="text-content">
-                    <h4>{{ product.title }}</h4>
-                    <p>{{ product.description }}</p>
-                </div>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
-                <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
-            </div>
-            {% endfor %}
+          {% for product in products %}
+          <div class="onB">
+            <a href="{% url 'product_detail' product.id %}">
+              <img src="{{ product.logo.url }}" alt="{{ product.title }}" />
+              <div class="text-content">
+                <h4>{{ product.title }}</h4>
+                <p>{{ product.description }}</p>
+              </div>
+            </a>
+          </div>
+          <div class="icon">
+            <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
+            <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
+          </div>
+          {% endfor %}
         </div>
 
         <section class="images">
+          <a href="{% url 'product_detail' product.product_id %}">
             <div class="img">
                 {% for product in products %}
                 <div class="img1">
@@ -130,8 +133,10 @@
                 </div>
                 {% endfor %}
             </div>
+          </a>
+
         </section>
-    </section>
+      </section>
     </section>
 
 

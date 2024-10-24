@@ -74,18 +74,15 @@
       <section class="ONBOARDING-p">
         <div class="services-p">
           <div class="onB-p">
-            <img src="/media/image/alltrails.jpeg" alt="" />
+            <img src="{{ product.logo.url }}" alt="{{ product.title }} Logo">
             <div class="text-content-p">
-              <h1>AllTrails</h1>
-              <p>
-                Find your way outside. Get out there using AllTrails and
-                discover trails that fit your nature.
-              </p>
+              <h1>{{ product.title }}</h1>
+              <p>{{ product.description }}</p>
             </div>
           </div>
           <div class="icon">
-            <i class="fa-solid fa-eye opa">100</i>
-            <i class="fa-solid fa-box-archive opa">100</i>
+            <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
+            <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
           </div>
         </div>
       </section>
@@ -99,7 +96,7 @@
           </div>
           <div class="icon-w">
             <h2>Category</h2>
-            <p>Health and Fitness</p>
+            <p>{{ user_flow.category }}</p>
           </div>
         </div>
       </section>
@@ -118,111 +115,39 @@
           <li class="list-links">SEARCHING</li>
         </ul>
       </div>
-      <div class="product-details">
-        <div class="product-video-section">
-          <div class="product-v">
-            <video src="/media/videos/rings video.mp4" controls></video>
-          </div>
-        </div>
-
-        <div class="text-content-p-swipe">
-          <h1>Onboarding</h1>
-          <p>
-            <i class="fa-solid fa-box-archive opa">100</i>
-          </p>
-        </div>
-        <div class="p-onB">
-          <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 1" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img2.jpg" alt="Image 2" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img3.jpg" alt="Image 3" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img4.jpg" alt="Image 4" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 5" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 6" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img2.jpg" alt="Image 7" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img3.jpg" alt="Image 8" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img4.jpg" alt="Image 9" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 10" />
-              </div>
-            </div>
-
-            <div class="swiper-pagination"></div>
-
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-          </div>
-        </div>
-
-        <div class="text-content-p-swipe">
-          <h1>Discovering content</h1>
-          <p>
-            <i class="fa-solid fa-box-archive opa">100</i>
-          </p>
-        </div>
-        <div class="p-onB">
-          <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 1" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img2.jpg" alt="Image 2" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img3.jpg" alt="Image 3" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img4.jpg" alt="Image 4" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 5" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 6" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img2.jpg" alt="Image 7" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img3.jpg" alt="Image 8" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img4.jpg" alt="Image 9" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 10" />
-              </div>
-            </div>
-
-            <div class="swiper-pagination"></div>
-
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-          </div>
+    <section class="product-details">
+      <div class="product-video-section">
+        <div class="product-v">
+          <video controls>
+            <source src="{{ user_flow.video.url }}" type="video/mp4">
+          </video>
         </div>
       </div>
-    </section>
 
+      <div class="text-content-p-swipe">
+        <h1>{{ user_flow.name }}</h1>
+        <p>
+          <i class="fa-solid fa-box-archive opa">{{ user_flow.view_count }}</i>
+        </p>
+      </div>
+      <div class="p-onB">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            {% for screenshot in user_flow.screenshots.all %}
+              <div class="swiper-slide">
+                <img src="{{ screenshot.image.url }}" alt="Screenshot for {{ user_flow.name }}">
+              </div>
+            {% empty %}
+              <p>No screenshots available for this user flow.</p>
+            {% endfor %}
+          </div>
+
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+</section>
     <footer class="footer">
       <div class="footer-nav">
         <ul>
