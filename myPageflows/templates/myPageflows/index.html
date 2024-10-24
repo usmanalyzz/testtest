@@ -67,6 +67,9 @@
                     <li class="active">
                       <a href="{{ item.url }}">
                         {{ item.title }}
+                        {% if item.title == 'FILTERS' %}
+                            &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-list-ul"></i>
+                        {% endif %}
                       </a>
                     </li>
                 {% endfor %}
@@ -142,7 +145,7 @@
         </ul>
       </div>
       <div class="footer-copy">
-        <img src="media/image/logo.png" alt="" />
+        <img src="/media./image/logo.png" alt="" />
         <div class="copy-text">
           Design better user flows. Learn from proven products. <br />Pageflow ©
           Copyright 2024. All rights reserved
@@ -157,5 +160,24 @@
         </div>
       </div>
     </footer>
+  <script>
+      const filterToggle = document.getElementById("filter-toggle");
+      const filterSlide = document.getElementById("filter-slide");
+
+      filterToggle.addEventListener("click", function (e) {
+        e.preventDefault();
+        filterSlide.style.display =
+          filterSlide.style.display === "block" ? "none" : "block";
+      });
+
+      window.addEventListener("click", function (e) {
+        if (
+          !filterSlide.contains(e.target) &&
+          !filterToggle.contains(e.target)
+        ) {
+          filterSlide.style.display = "none";
+        }
+      });
+    </script>
   </body>
 </html>

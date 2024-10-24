@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView
 from .models import Product
 
-
+# this is the main index view
 class IndexView(TemplateView):
     template_name = 'myPageflows/index.html'
 
@@ -9,6 +9,11 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['nav_items'] = [
+            {
+                'title': 'FILTERS',
+                'url': '#',
+                'icon': 'fa-solid fa-list-ul'
+            },
             {
                 'title': 'ALL',
                 'url': '#'
@@ -35,3 +40,7 @@ class IndexView(TemplateView):
         context['products'] = Product.objects.all()
 
         return context
+
+
+class ProductView(TemplateView):
+    template_name = 'myPageflows/products.html'
