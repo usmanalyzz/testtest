@@ -1,5 +1,7 @@
 from django.views.generic import TemplateView
-from .models import Product
+from .models import Product, UserFlow
+
+
 
 # this is the main index view
 class IndexView(TemplateView):
@@ -44,3 +46,10 @@ class IndexView(TemplateView):
 
 class ProductView(TemplateView):
     template_name = 'myPageflows/products.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_id = self.kwargs['product_id']
+        context['product'] = Product.objects.get(id=product_id)
+        context['user_flow'] = UserFlow.objects.filter(product=context['product'])
+        return context
