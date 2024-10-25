@@ -88,66 +88,73 @@
       </section>
       <section class="ONBOARDING-p">
         <div class="services-p">
-          <div class="onB-p-w">
-            <button class="styled-button">November 2023</button>
-            <div class="text-content-p">
-              <a href="" class="styled-link">Website</a>
+            <div class="onB-p-w">
+                <button class="styled-button">November 2023</button>
+                <div class="text-content-p">
+                    <a href="" class="styled-link">Website</a>
+                </div>
             </div>
-          </div>
-          <div class="icon-w">
-            <h2>Category</h2>
-            <p>{{ user_flow.category }}</p>
-          </div>
+            {% with categories=user_flow|dictsort:"category"|slice:":1" %}
+            {% for user_f in categories %}
+                <div class="icon-w">
+                    <h2>Category</h2>
+                    <p>{{ user_f.category }}</p>
+                </div>
+            {% endfor %}
+            {% endwith %}
         </div>
       </section>
     </section>
 
     <section class="product">
-      <div class="sidebar">
+      <div class="main-sec">
+        <div class="sidebar">
         <ul class="category-list">
-          <li class="list-links active">ONBOARDING</li>
-          <li class="list-links">COMMENTING</li>
-          <li class="list-links">DISCOVERING CONTENT</li>
-          <li class="list-links">GENERAL BROWSING</li>
-          <li class="list-links">INVITING PEOPLE</li>
-          <li class="list-links">LEAVING A REVIEW</li>
-          <li class="list-links">SAVING</li>
-          <li class="list-links">SEARCHING</li>
+            {% for user_f in user_flow %}
+            <li class="list-links active">{{ user_f.name }}</li>
+            {% endfor %}
         </ul>
       </div>
-    <section class="product-details">
-      <div class="product-video-section">
-        <div class="product-v">
-          <video controls>
-            <source src="{{ user_flow.video.url }}" type="video/mp4">
-          </video>
-        </div>
-      </div>
 
-      <div class="text-content-p-swipe">
-        <h1>{{ user_flow.name }}</h1>
-        <p>
-          <i class="fa-solid fa-box-archive opa">{{ user_flow.view_count }}</i>
-        </p>
-      </div>
-      <div class="p-onB">
-        <div class="swiper-container">
-          <div class="swiper-wrapper">
-            {% for screenshot in user_flow.screenshots.all %}
-              <div class="swiper-slide">
-                <img src="{{ screenshot.image.url }}" alt="Screenshot for {{ user_flow.name }}">
-              </div>
-            {% empty %}
-              <p>No screenshots available for this user flow.</p>
-            {% endfor %}
+      <section class="product-details">
+          <div class="product-video-section">
+            <div class="product-v">
+              {% for user_f in user_flow %}
+              <video controls>
+                  <source src="{{ user_f.video.url }}" type="video/mp4">
+              </video>
+              {% endfor %}
+            </div>
           </div>
 
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-        </div>
-      </div>
-</section>
+          <div class="text-content-p-swipe">
+            {% for user_f in user_flow %}
+            <div class="main-sec-text">
+                <h1>{{ user_f.name }}</h1>
+                <p>
+                    <i class="fa-solid fa-box-archive opa">{{ user_f.save_count }}</i>
+                </p>
+            </div>
+            <div class="p-onB">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for screenshot in user_f.screenshots.all %}
+                        <div class="swiper-slide">
+                            <img src="{{ screenshot.image.url }}" alt="Screenshot for {{ user_f.name }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+            {% endfor %}
+          </div>
+      </section>
+    </div>
+
     <footer class="footer">
       <div class="footer-nav">
         <ul>

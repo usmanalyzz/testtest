@@ -327,6 +327,7 @@ body {
   margin: 1rem;
   flex: 1;
   justify-content: space-around;
+  margin-left: 6rem;
 }
 
 .services {
@@ -336,7 +337,7 @@ body {
 
 .services-p {
   display: flex;
-  gap: 55rem;
+  gap: 61rem;
 }
 
 .onB {
@@ -637,6 +638,7 @@ body {
 
 .product {
   display: flex;
+  flex-direction: column;
 }
 
 .sidebar {
@@ -699,7 +701,7 @@ body {
 
 .text-content-p-swipe {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 4rem;
 }
 
@@ -777,4 +779,13 @@ body {
 .swiper-button-next::after,
 .swiper-button-prev::after {
   font-size: 18px;
+}
+
+.main-sec {
+    display: flex;
+}
+
+.main-sec-text{
+    display:flex;
+    gap: 3rem;
 }

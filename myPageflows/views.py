@@ -1,9 +1,8 @@
 from django.views.generic import TemplateView
 from .models import Product, UserFlow
+from django.db.models import Count
 
 
-
-# this is the main index view
 class IndexView(TemplateView):
     template_name = 'myPageflows/index.html'
 
@@ -51,5 +50,16 @@ class ProductView(TemplateView):
         context = super().get_context_data(**kwargs)
         product_id = self.kwargs['product_id']
         context['product'] = Product.objects.get(id=product_id)
-        context['user_flow'] = UserFlow.objects.filter(product=context['product'])
+        print(context['product'])
+
+        user_flows_with_names_counts = (
+            UserFlow.objects.filter(product=context['product'])
+            .values('name')
+            .annotate(count=Count('name'))
+        )
+
+        context['user_flows_with_names_counts'] = user_flows_with_names_counts
+
+        print(context['user_flows_with_names_counts'])
         return context
+
