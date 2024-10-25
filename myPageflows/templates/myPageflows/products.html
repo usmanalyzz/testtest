@@ -74,154 +74,86 @@
       <section class="ONBOARDING-p">
         <div class="services-p">
           <div class="onB-p">
-            <img src="/media/image/alltrails.jpeg" alt="" />
+            <img src="{{ product.logo.url }}" alt="{{ product.title }} Logo">
             <div class="text-content-p">
-              <h1>AllTrails</h1>
-              <p>
-                Find your way outside. Get out there using AllTrails and
-                discover trails that fit your nature.
-              </p>
+              <h1>{{ product.title }}</h1>
+              <p>{{ product.description }}</p>
             </div>
           </div>
           <div class="icon">
-            <i class="fa-solid fa-eye opa">100</i>
-            <i class="fa-solid fa-box-archive opa">100</i>
+            <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
+            <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
           </div>
         </div>
       </section>
       <section class="ONBOARDING-p">
         <div class="services-p">
-          <div class="onB-p-w">
-            <button class="styled-button">November 2023</button>
-            <div class="text-content-p">
-              <a href="" class="styled-link">Website</a>
+            <div class="onB-p-w">
+                <button class="styled-button">November 2023</button>
+                <div class="text-content-p">
+                    <a href="" class="styled-link">Website</a>
+                </div>
             </div>
-          </div>
-          <div class="icon-w">
-            <h2>Category</h2>
-            <p>Health and Fitness</p>
-          </div>
+            {% with categories=user_flow|dictsort:"category"|slice:":1" %}
+            {% for user_f in categories %}
+                <div class="icon-w">
+                    <h2>Category</h2>
+                    <p>{{ user_f.category }}</p>
+                </div>
+            {% endfor %}
+            {% endwith %}
         </div>
       </section>
     </section>
 
     <section class="product">
-      <div class="sidebar">
+      <div class="main-sec">
+        <div class="sidebar">
         <ul class="category-list">
-          <li class="list-links active">ONBOARDING</li>
-          <li class="list-links">COMMENTING</li>
-          <li class="list-links">DISCOVERING CONTENT</li>
-          <li class="list-links">GENERAL BROWSING</li>
-          <li class="list-links">INVITING PEOPLE</li>
-          <li class="list-links">LEAVING A REVIEW</li>
-          <li class="list-links">SAVING</li>
-          <li class="list-links">SEARCHING</li>
+            {% for user_f in user_flow %}
+            <li class="list-links active">{{ user_f.name }}</li>
+            {% endfor %}
         </ul>
       </div>
-      <div class="product-details">
-        <div class="product-video-section">
-          <div class="product-v">
-            <video src="/media/videos/rings video.mp4" controls></video>
-          </div>
-        </div>
 
-        <div class="text-content-p-swipe">
-          <h1>Onboarding</h1>
-          <p>
-            <i class="fa-solid fa-box-archive opa">100</i>
-          </p>
-        </div>
-        <div class="p-onB">
-          <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 1" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img2.jpg" alt="Image 2" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img3.jpg" alt="Image 3" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img4.jpg" alt="Image 4" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 5" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 6" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img2.jpg" alt="Image 7" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img3.jpg" alt="Image 8" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img4.jpg" alt="Image 9" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 10" />
-              </div>
+      <section class="product-details">
+          <div class="product-video-section">
+            <div class="product-v">
+              {% for user_f in user_flow %}
+              <video controls>
+                  <source src="{{ user_f.video.url }}" type="video/mp4">
+              </video>
+              {% endfor %}
             </div>
-
-            <div class="swiper-pagination"></div>
-
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
           </div>
-        </div>
 
-        <div class="text-content-p-swipe">
-          <h1>Discovering content</h1>
-          <p>
-            <i class="fa-solid fa-box-archive opa">100</i>
-          </p>
-        </div>
-        <div class="p-onB">
-          <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 1" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img2.jpg" alt="Image 2" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img3.jpg" alt="Image 3" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img4.jpg" alt="Image 4" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 5" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 6" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img2.jpg" alt="Image 7" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img3.jpg" alt="Image 8" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img4.jpg" alt="Image 9" />
-              </div>
-              <div class="swiper-slide">
-                <img src="/media/image/img1.jpg" alt="Image 10" />
-              </div>
+          <div class="text-content-p-swipe">
+            {% for user_f in user_flow %}
+            <div class="main-sec-text">
+                <h1>{{ user_f.name }}</h1>
+                <p>
+                    <i class="fa-solid fa-box-archive opa">{{ user_f.save_count }}</i>
+                </p>
             </div>
+            <div class="p-onB">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for screenshot in user_f.screenshots.all %}
+                        <div class="swiper-slide">
+                            <img src="{{ screenshot.image.url }}" alt="Screenshot for {{ user_f.name }}">
+                        </div>
+                        {% endfor %}
+                    </div>
 
-            <div class="swiper-pagination"></div>
-
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+            {% endfor %}
           </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <footer class="footer">
       <div class="footer-nav">
