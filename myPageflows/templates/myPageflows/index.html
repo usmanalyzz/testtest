@@ -63,18 +63,31 @@
           </ul>
           <div class="main-navbar-menu">
             <ul class="main-navbar">
-                {% for item in nav_items %}
-                    <li class="active">
-                      <a href="{{ item.url }}">
-                        {{ item.title }}
-                        {% if item.title == 'FILTERS' %}
-                            &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-list-ul"></i>
-                        {% endif %}
-                      </a>
-                    </li>
-                {% endfor %}
+              {% for item in nav_items %}
+                <li class="{% if item.title == 'FILTERS' %}active{% endif %}">
+                  <a href="{{ item.url }}" id="filter-toggle" onclick="toggleFilter()">
+                    {{ item.title }}
+                    {% if item.title == 'FILTERS' %}
+                      &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-list-ul"></i>
+                    {% endif %}
+                  </a>
+                </li>
+              {% endfor %}
             </ul>
-        </div>
+
+            <div id="filter-slide" class="filter-content" style="display: none;">
+              <div class="filter-row">
+                <div class="filter-col">
+                  {% for user_f in user_flows_with_names_counts %}
+                    <div class="filter-item">
+                      <span>{{ user_f.name }}</span> <span>{{ user_f.count }}</span>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="userflow-right-menu">
           <ul>
@@ -107,19 +120,21 @@
     <section class="main-onB">
       <section class="ONBOARDING">
         <div class="services">
-            {% for product in products %}
-            <div class="onB">
-                <img src="{{ product.logo.url }}" alt="{{ product.title }}" />
-                <div class="text-content">
-                    <h4>{{ product.title }}</h4>
-                    <p>{{ product.description }}</p>
-                </div>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
-                <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
-            </div>
-            {% endfor %}
+          {% for product in products %}
+          <div class="onB">
+            <a href="{% url 'product_detail' product.id %}">
+              <img src="{{ product.logo.url }}" alt="{{ product.title }}" />
+              <div class="text-content">
+                <h4>{{ product.title }}</h4>
+                <p>{{ product.description }}</p>
+              </div>
+            </a>
+          </div>
+          <div class="icon">
+            <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
+            <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
+          </div>
+          {% endfor %}
         </div>
 
         <section class="images">
@@ -131,7 +146,7 @@
                 {% endfor %}
             </div>
         </section>
-    </section>
+      </section>
     </section>
 
 
