@@ -18,6 +18,7 @@ class UserFlow(models.Model):
     video = models.FileField(upload_to='media/videos/')
     name = models.CharField(max_length=100)
     save_count = models.PositiveIntegerField(default=0)
+    is_paid = models.BooleanField(default=True)
 
 
 

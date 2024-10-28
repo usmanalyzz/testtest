@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+      {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Page Flows</title>
+  </head>
+  <body>
+    <header class="pageflows-header">
+      <div class="pageflows-header-container">
+        <div class="pageflows-header-main">
+          <div class="pageflows-logo">
+                <a href="{% url 'index' %}"><img src="/media/image/logo.png" alt="Page-Flows-Logo" /></a>
+            </div>
+          <div class="pageflow-searchbar">
+            <i class="fa-solid fa-magnifying-glass icon"></i>
+            <input type="text" placeholder="Search" />
+          </div>
+        </div>
+        <div class="pageflows-header-nav">
+          <ul>
+            <li class="active">
+              <a href="">IOS</a>
+            </li>
+            <li class="active"><a href="">ANDROID</a></li>
+            <li class="active"><a href="">WEB</a></li>
+            <li class="active"><a href="">EMAILS</a></li>
+          </ul>
+        </div>
+        <div class="pageflows-header-right-menu">
+          <ul>
+            <div class="get-premium-menu">
+              <a href="">SIGN IN</a>
+            </div>
+            <div class="get-premium-menu">
+              <a href="">GET PREMIUM</a>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <section class="login-page-main">
+      <div class="pageflows-container">
+        <div class="login-page-row">
+          <div class="text">
+            “Using Page Flows has drastically improved my workflow. Not only
+            does it help me solve UX problems, it’s also super helpful to get
+            validated by seeing what others are doing. I highly recommend!”
+          </div>
+          <div class="login-main">
+            <div class="login-img">
+              <img src="/media/image/logo.png" alt="" />
+            </div>
+            <div class="login-form">
+              <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                    {% if messages %}
+                      <ul class="error-messages" style="color: red; list-style: none; font-size: large; font-weight: bolder;">
+                          {% for message in messages %}
+                              <li>{{ message }}</li>
+                          {% endfor %}
+                      </ul>
+                    {% endif %}
+
+                <label for="username">Username</label><br />
+                <input type="text" name="username" id="username" required /><br />
+
+                <label for="email">Email</label><br />
+                <input type="email" name="email" id="email" required /><br /><br />
+
+                <label for="password">Password</label><br />
+                <input type="password" name="password" id="password" required /><br />
+
+                <button type="submit" class="login-btn">Register</button>
+                <button type="button" class="google-signin-btn">
+                    <img src="/media/image/google.png" alt="" />
+                    <p>Sign Up with Google</p>
+                </button>
+                <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
