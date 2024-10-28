@@ -38,12 +38,22 @@
         </div>
         <div class="pageflows-header-right-menu">
           <ul>
-            <div class="get-premium-menu">
-              <a href="">SIGN IN</a>
-            </div>
-            <div class="get-premium-menu">
-              <a href="">GET PREMIUM</a>
-            </div>
+            {% if user.is_authenticated %}
+                <div class="get-premium-menu">
+                    <span>Welcome, {{ user.username }}!</span>
+                </div>
+                <form method="post" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="logout-button">Logout</button>
+                </form>
+                  {% else %}
+                      <div class="get-premium-menu">
+                          <a href="{% url 'login' %}">SIGN IN</a>
+                      </div>
+                  {% endif %}
+                <div class="get-premium-menu">
+                    <a href="#">GET PREMIUM</a>
+                </div>
           </ul>
         </div>
       </div>
@@ -63,18 +73,36 @@
           </ul>
           <div class="main-navbar-menu">
             <ul class="main-navbar">
-                {% for item in nav_items %}
-                    <li class="active">
-                      <a href="{{ item.url }}">
-                        {{ item.title }}
-                        {% if item.title == 'FILTERS' %}
-                            &nbsp;&nbsp;&nbsp;<i class="fa-solid fa-list-ul"></i>
+              <li class="active">
+                <a href="#" id="filter-toggle">FILTERS &nbsp; &nbsp; &nbsp;</a>
+                <i class="fa-solid fa-list-ul"></i>
+              </li>
+              <div id="filter-slide" class="filter-content">
+                <div class="filter-row">
+                    <div class="filter-col">
+                        {% if user_flows_with_names_counts %}
+                            {% for user_f in user_flows_with_names_counts %}
+                                <div class="filter-item">
+                                    <a href="?selected_name={{ user_f.title }}">
+                                      <span>{{ user_f.title }}</span>
+                                    </a>
+                                  <span>{{ user_f.userflow_count }}</span>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No user flows available for the products.</p>
                         {% endif %}
-                      </a>
-                    </li>
-                {% endfor %}
+                    </div>
+                </div>
+              </div>
+              {% for item in nav_items %}
+                <li class="active">
+                    {{ item.title }}
+                </li>
+              {% endfor %}
             </ul>
-        </div>
+          </div>
+
         </div>
         <div class="userflow-right-menu">
           <ul>
@@ -98,41 +126,61 @@
 
     <section class="IOS-users">
       <div class="pageflows-ios-user">
-        <h1 class="IOS">iOS User FLows</h1>
+        <h1 class="IOS">{{ selected_name }}</h1>
         <p class="para">Learn from proven products</p>
       </div>
     </section>
 
 
     <section class="main-onB">
+      {% for product in products %}
       <section class="ONBOARDING">
         <div class="services">
-            {% for product in products %}
-            <div class="onB">
-                <img src="{{ product.logo.url }}" alt="{{ product.title }}" />
-                <div class="text-content">
-                    <h4>{{ product.title }}</h4>
-                    <p>{{ product.description }}</p>
-                </div>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
-                <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
-            </div>
-            {% endfor %}
+
+          <div class="onB">
+            <a href="{% url 'product_detail' product.id %}">
+              <img src="{{ product.logo.url }}" alt="{{ product.title }}" />
+              <div class="text-content">
+                <h4>{{ product.title }}</h4>
+                <p>{{ product.description }}</p>
+              </div>
+            </a>
+          </div>
+          <div class="icon">
+            <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
+            <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
+          </div>
         </div>
 
         <section class="images">
-            <div class="img">
-                {% for product in products %}
-                <div class="img1">
-                    <img src="{{ product.image.url }}" alt="{{ product.title }}" />
+          <div class="img">
+            <div class="img1">
+              {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                  <img src="{{ product.image.url }}" alt="{{ product.title }}" />
+                {% elif product.user_flows.first.is_paid %}
+                  <img src="{{ product.image.url }}" alt="{{ product.title }}" />
+                {% else %}
+                  <img src="{{ product.image.url }}" alt="Locked Content" />
+                  <div class="overlay">
+                    <button class="buy-btn">Buy</button>
+                  </div>
+                {% endif %}
+              {% else %}
+                <img src="images/img1.jpg" alt="Locked Content" />
+                <div class="overlay">
+                  <button class="buy-btn">Buy</button>
                 </div>
-                {% endfor %}
+              {% endif %}
             </div>
+          </div>
         </section>
+      </section>
+      {% endfor %}
     </section>
-    </section>
+
+
+
 
 
     <footer class="footer">
@@ -145,7 +193,7 @@
         </ul>
       </div>
       <div class="footer-copy">
-        <img src="/media./image/logo.png" alt="" />
+        <img src="/media/image/logo.png" alt="" />
         <div class="copy-text">
           Design better user flows. Learn from proven products. <br />Pageflow ©
           Copyright 2024. All rights reserved
@@ -160,24 +208,20 @@
         </div>
       </div>
     </footer>
-  <script>
+    <script>
       const filterToggle = document.getElementById("filter-toggle");
       const filterSlide = document.getElementById("filter-slide");
 
       filterToggle.addEventListener("click", function (e) {
         e.preventDefault();
-        filterSlide.style.display =
-          filterSlide.style.display === "block" ? "none" : "block";
+        filterSlide.style.display = filterSlide.style.display === "block" ? "none" : "block";
       });
 
       window.addEventListener("click", function (e) {
-        if (
-          !filterSlide.contains(e.target) &&
-          !filterToggle.contains(e.target)
-        ) {
+        if (!filterSlide.contains(e.target) && !filterToggle.contains(e.target)) {
           filterSlide.style.display = "none";
         }
       });
-    </script>
+  </script>
   </body>
 </html>
