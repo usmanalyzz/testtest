@@ -25,8 +25,8 @@
       <div class="pageflows-header-container">
         <div class="pageflows-header-main">
           <div class="pageflows-logo">
-            <img src="/media/image/logo.png" alt="Page-Flows-Logo" />
-          </div>
+                <a href="{% url 'index' %}"><img src="/media/image/logo.png" alt="Page-Flows-Logo" /></a>
+            </div>
           <div class="pageflow-searchbar">
             <i class="fa-solid fa-magnifying-glass icon"></i>
             <input type="text" placeholder="Search" />
@@ -44,12 +44,23 @@
         </div>
         <div class="pageflows-header-right-menu">
           <ul>
-            <div class="get-premium-menu">
-              <a href="">SIGN IN</a>
-            </div>
-            <div class="get-premium-menu">
-              <a href="">GET PREMIUM</a>
-            </div>
+            {% if user.is_authenticated %}
+                <div class="get-premium-menu">
+                    <span>Welcome, {{ user.username }}!</span>
+                </div>
+                <form method="post" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="logout-button">Logout</button>
+                </form>
+                  {% else %}
+                      <div class="get-premium-menu">
+                          <a href="{% url 'login' %}">SIGN IN</a>
+                      </div>
+                        <div class="get-premium-menu">
+                            <a href="#">GET PREMIUM</a>
+                        </div>
+                  {% endif %}
+
           </ul>
         </div>
       </div>
@@ -60,8 +71,8 @@
               <span>USER FLOWS</span>
               <i class="fa-solid fa-caret-down"></i>
               <div class="dropdown-content">
-                <li class="active">USER FLOWS</li>
-                <li class="active">PRODUCTS</li>
+                <li><a href="/userflow/">USER FLOWS</a></li>
+                <li><a href="/">PRODUCTS</a></li>
                 <li class="active">UI ELEMENTS</li>
                 <li class="active">SCREENS</li>
               </div>
@@ -82,7 +93,6 @@
           </div>
           <div class="icon">
             <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
-            <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
           </div>
         </div>
       </section>
@@ -95,7 +105,7 @@
                 </div>
             </div>
             {% with categories=user_flow|dictsort:"category"|slice:":1" %}
-            {% for user_f in categories %}
+            {% for user_f in category %}
                 <div class="icon-w">
                     <h2>Category</h2>
                     <p>{{ user_f.category }}</p>
@@ -109,51 +119,68 @@
     <section class="product">
       <div class="main-sec">
         <div class="sidebar">
-        <ul class="category-list">
-            {% for user_f in user_flow %}
-            <li class="list-links active">{{ user_f.name }}</li>
-            {% endfor %}
-        </ul>
-      </div>
+            <ul class="category-list" >
+                {% for user_f in user_flows %}
+                    <li class="list-links" data-userflow-id="{{ user_f.id }}" onclick="makeActive(this)">
+                        <a class="list-links" href="{% url 'user_flow_api' user_f.id %}" style="text-decoration: none; color: black; font-weight: bold;">{{ user_f.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
 
-      <section class="product-details">
-          <div class="product-video-section">
-            <div class="product-v">
-              {% for user_f in user_flow %}
-              <video controls>
-                  <source src="{{ user_f.video.url }}" type="video/mp4">
-              </video>
-              {% endfor %}
-            </div>
-          </div>
+        <section class="product-details">
+          <section class="product-details">
+              <div class="text-content-p-swipe">
+                <div class="product-video-section" style="display: block;">
+                  <div class="product-v">
+                    <video controls>
+                        <source src="{{ selected_user_flow.video.url }}" type="video/mp4">
+                    </video>
+                  </div>
 
-          <div class="text-content-p-swipe">
-            {% for user_f in user_flow %}
-            <div class="main-sec-text">
-                <h1>{{ user_f.name }}</h1>
-                <p>
-                    <i class="fa-solid fa-box-archive opa">{{ user_f.save_count }}</i>
-                </p>
-            </div>
-            <div class="p-onB">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        {% for screenshot in user_f.screenshots.all %}
-                        <div class="swiper-slide">
-                            <img src="{{ screenshot.image.url }}" alt="Screenshot for {{ user_f.name }}">
-                        </div>
+                  <h1>{{ selected_user_flow.name }}</h1>
+                  <p>
+                    <i class="fa-solid fa-box-archive opa">{{ selected_user_flow_screenshot_count }}</i>
+                  </p>
+                  <div class="p-onB">
+                    <div class="swiper-container">
+                      <div class="swiper-wrapper">
+                        {% for screenshot in selected_user_flow.screenshots.all %}
+                          <div class="swiper-slide">
+                            <img src="{{ screenshot.image.url }}" alt="Screenshot for {{ selected_user_flow.name }}">
+                          </div>
                         {% endfor %}
+                      </div>
+                      <div class="swiper-pagination"></div>
+                      <div class="swiper-button-next"></div>
+                      <div class="swiper-button-prev"></div>
                     </div>
-
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
+                  </div>
                 </div>
-            </div>
-            {% endfor %}
-          </div>
-      </section>
-    </div>
+
+                {% for user_f in user_flows %}
+                  {% if user_f.id != selected_user_flow.id %}
+                    <div class="main-sec-text userflow-content" data-userflow-id="{{ user_f.id }}">
+                      <h2>{{ user_f.name }}</h2>
+                      <p>
+                        <i class="fa-solid fa-box-archive opa">{{ user_f.screenshot_count }}</i>
+                      </p>
+                      <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                          {% for screenshot in user_f.screenshots.all %}
+                            <div class="swiper-slide">
+                              <img src="{{ screenshot.image.url }}" alt="Screenshot for {{ user_f.name }}">
+                            </div>
+                          {% endfor %}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+          </section>
+      </div>
 
     <footer class="footer">
       <div class="footer-nav">
@@ -213,5 +240,16 @@
         },
       });
     </script>
+
+<!--      <script>-->
+<!--    function makeActive(element) {-->
+<!--        // Remove 'active' class from all items-->
+<!--        document.querySelectorAll('.list-links').forEach(item => item.classList.remove('active'));-->
+
+<!--        // Add 'active' class to the clicked element-->
+<!--        element.classList.add('active');-->
+<!--    }-->
+<!--</script>-->
+
   </body>
 </html>

@@ -19,7 +19,7 @@
       <div class="pageflows-header-container">
         <div class="pageflows-header-main">
           <div class="pageflows-logo">
-            <img src="media/image/logo.png" alt="Page-Flows-Logo" />
+                <a href="{% url 'index' %}"><img src="/media/image/logo.png" alt="Page-Flows-Logo" /></a>
           </div>
           <div class="pageflow-searchbar">
             <i class="fa-solid fa-magnifying-glass icon"></i>
@@ -27,15 +27,16 @@
           </div>
         </div>
         <div class="pageflows-header-nav">
-          <ul>
-            <li class="active">
-              <a href="">IOS</a>
-            </li>
-            <li class="active"><a href="">ANDROID</a></li>
-            <li class="active"><a href="">WEB</a></li>
-            <li class="active"><a href="">EMAILS</a></li>
-          </ul>
-        </div>
+            <ul>
+              <li class="active">
+                <a href="?category=IOS">IOS</a>
+              </li>
+              <li class="active"><a href="?category=ANDROID">ANDROID</a></li>
+              <li class="active"><a href="?category=WEB">WEB</a></li>
+              <li class="active"><a href="?category=EMAILS">EMAILS</a></li>
+            </ul>
+          </div>
+
         <div class="pageflows-header-right-menu">
           <ul>
             {% if user.is_authenticated %}
@@ -50,10 +51,10 @@
                       <div class="get-premium-menu">
                           <a href="{% url 'login' %}">SIGN IN</a>
                       </div>
+                      <div class="get-premium-menu">
+                          <a href="#">GET PREMIUM</a>
+                      </div>
                   {% endif %}
-                <div class="get-premium-menu">
-                    <a href="#">GET PREMIUM</a>
-                </div>
           </ul>
         </div>
       </div>
@@ -61,11 +62,11 @@
         <div class="userflow-menu">
           <ul class="userflow-menu-nav">
             <div class="userflow-menu-dropdown">
-              <span>USER FLOWS</span>
+              <span>PRODUCT</span>
               <i class="fa-solid fa-caret-down"></i>
               <div class="dropdown-content">
-                <li class="active">USER FLOWS</li>
-                <li class="active">PRODUCTS</li>
+                <li><a href="/userflow/" style="text-decoration: none; list-style: none;">USER FLOWS</a></li>
+                <li><a href="/" style="text-decoration: none; list-style: none;">PRODUCTS</a></li>
                 <li class="active">UI ELEMENTS</li>
                 <li class="active">SCREENS</li>
               </div>
@@ -80,24 +81,30 @@
               <div id="filter-slide" class="filter-content">
                 <div class="filter-row">
                     <div class="filter-col">
+                      {% if filter_products %}
                         {% if user_flows_with_names_counts %}
-                            {% for user_f in user_flows_with_names_counts %}
+                          {% for user_f in filter_products %}
+                            {% for count in user_flows_with_names_counts %}
+                              {% if count.title == user_f.title %}
                                 <div class="filter-item">
-                                    <a href="?selected_name={{ user_f.title }}">
-                                      <span>{{ user_f.title }}</span>
-                                    </a>
-                                  <span>{{ user_f.userflow_count }}</span>
+                                  <a href="?selected_name={{ user_f.title }}" style="text-decoration: none; list-style:none; color: black;">
+                                    <span >{{ user_f.title }}</span>
+                                  </a>
+                                  <span style="text-decoration: none; list-style:none; color: gray;" >{{ count.userflow_count }}</span>
                                 </div>
+                              {% endif %}
                             {% endfor %}
+                          {% endfor %}
                         {% else %}
-                            <p>No user flows available for the products.</p>
+                          <p>No products available..</p>
                         {% endif %}
+                      {% endif %}
                     </div>
                 </div>
               </div>
               {% for item in nav_items %}
                 <li class="active">
-                    {{ item.title }}
+                  <a href="?selected_name={{ item.title }}" class="nav-product-link" data-product-title="{{ item.title }}">{{ item.title }}</a>
                 </li>
               {% endfor %}
             </ul>
@@ -136,38 +143,30 @@
       {% for product in products %}
       <section class="ONBOARDING">
         <div class="services">
-
           <div class="onB">
-            <a href="{% url 'product_detail' product.id %}">
+
+            <a href="{% url 'user_flow_detail' product.id %}" style="text-decoration: none; color: black;">
               <img src="{{ product.logo.url }}" alt="{{ product.title }}" />
               <div class="text-content">
+
                 <h4>{{ product.title }}</h4>
+
                 <p>{{ product.description }}</p>
               </div>
             </a>
           </div>
           <div class="icon">
             <i class="fa-solid fa-eye opa">{{ product.view_count }}</i>
-            <i class="fa-solid fa-box-archive opa">{{ product.save_count }}</i>
           </div>
         </div>
 
         <section class="images">
           <div class="img">
             <div class="img1">
-              {% if user.is_authenticated %}
-                {% if user.is_staff %}
-                  <img src="{{ product.image.url }}" alt="{{ product.title }}" />
-                {% elif product.user_flows.first.is_paid %}
+              {% if user.is_authenticated or user.is_staff %}
                   <img src="{{ product.image.url }}" alt="{{ product.title }}" />
                 {% else %}
-                  <img src="{{ product.image.url }}" alt="Locked Content" />
-                  <div class="overlay">
-                    <button class="buy-btn">Buy</button>
-                  </div>
-                {% endif %}
-              {% else %}
-                <img src="images/img1.jpg" alt="Locked Content" />
+                <img src="{{ product.image.url }}" alt="Locked Content" />
                 <div class="overlay">
                   <button class="buy-btn">Buy</button>
                 </div>
@@ -178,10 +177,6 @@
       </section>
       {% endfor %}
     </section>
-
-
-
-
 
     <footer class="footer">
       <div class="footer-nav">
@@ -223,5 +218,17 @@
         }
       });
   </script>
+
+  <script>
+    const navProductLinks = document.querySelectorAll('.nav-product-link');
+
+    navProductLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const selectedName = link.dataset.productTitle;
+            const h1Element = document.querySelector('.IOS');
+            h1Element.textContent = selectedName;
+        });
+    });
+</script>
   </body>
 </html>

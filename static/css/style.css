@@ -171,7 +171,7 @@ body {
   background-color: #fff;
   color: #333;
   border-bottom: 1px solid #ddd;
-  border-radius: 3px;
+  border-radius: 13px;
   text-decoration: none;
   margin-top: 4px;
 }
@@ -790,6 +790,7 @@ body {
 
 .product-details .swiper-container {
   margin-bottom: 30px;
+  overflow: hidden;
 }
 
 .swiper-button-next {
@@ -828,6 +829,7 @@ body {
 .main-sec-text{
     display:flex;
     gap: 3rem;
+    flex-direction: column;
 }
 
 
@@ -999,7 +1001,7 @@ body {
 }
 
 .logout-button {
-    background-color: #f44336;
+    background-color: #13bfe8;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -1017,4 +1019,10 @@ body {
 .logout-button:hover {
     background-color: #c62828;
 }
+
+.list-links.active {
+        color: #87fff1;
+        font-weight: bold;
+    }
+
 
