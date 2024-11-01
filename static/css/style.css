@@ -171,7 +171,7 @@ body {
   background-color: #fff;
   color: #333;
   border-bottom: 1px solid #ddd;
-  border-radius: 3px;
+  border-radius: 13px;
   text-decoration: none;
   margin-top: 4px;
 }
@@ -327,6 +327,7 @@ body {
   margin: 1rem;
   flex: 1;
   justify-content: space-around;
+  margin-left: 6rem;
 }
 
 .services {
@@ -336,7 +337,7 @@ body {
 
 .services-p {
   display: flex;
-  gap: 55rem;
+  gap: 61rem;
 }
 
 .onB {
@@ -473,6 +474,9 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+  position: relative;
+  width: 300px;
+  border-radius: 2px;
 }
 
 .img {
@@ -483,11 +487,36 @@ body {
   background-color: #0000001c;
 }
 
+.img1 {
+  position: relative;
+  display: inline-block;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
 .img1 img {
   width: 310px;
   height: auto;
-  border-radius: 1rem;
+  border-radius: 15px;
   background-color: #000;
+  width: 100%;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  border: 25px;
 }
 
 .img1 img:hover {
@@ -498,6 +527,17 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.buy-btn {
+  padding: 10px 20px;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 
 .footer {
   background-color: #000;
@@ -581,6 +621,7 @@ body {
   z-index: 999;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 30rem;
 }
 
 .filter-row {
@@ -637,6 +678,7 @@ body {
 
 .product {
   display: flex;
+  flex-direction: column;
 }
 
 .sidebar {
@@ -699,7 +741,7 @@ body {
 
 .text-content-p-swipe {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 4rem;
 }
 
@@ -748,6 +790,7 @@ body {
 
 .product-details .swiper-container {
   margin-bottom: 30px;
+  overflow: hidden;
 }
 
 .swiper-button-next {
@@ -778,3 +821,208 @@ body {
 .swiper-button-prev::after {
   font-size: 18px;
 }
+
+.main-sec {
+    display: flex;
+}
+
+.main-sec-text{
+    display:flex;
+    gap: 3rem;
+    flex-direction: column;
+}
+
+
+.login-page-main {
+  display: flex;
+  align-items: center;
+  padding: 70px 0;
+  background: url(/images/sign-up-bg.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.pageflows-container {
+  margin: 0 auto;
+  max-width: 1420px;
+  padding: 0 20px;
+}
+
+.login-page-row {
+  display: flex;
+  gap: 120px;
+  align-items: center;
+  padding: 0 100px;
+}
+
+.login-page-row .text {
+  font-size: 36px;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: start;
+}
+
+.login-main {
+  background-color: white;
+  width: 201rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50rem;
+  border-radius: 15px;
+  flex-direction: column;
+}
+
+.login-main-forget {
+  background-color: white;
+  width: 50rem;
+  display: flex;
+  justify-content: center;
+  height: 25rem;
+  border-radius: 15px;
+  flex-direction: column;
+  padding: 60px;
+}
+
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form input {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  border-radius: 25px;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  width: 25rem;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+  background-color: #f1f1f1;
+  margin-top: 10px;
+}
+
+.login-form-forget input {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  border-radius: 25px;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  width: 41rem;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+  background-color: #f1f1f1;
+  margin-top: 10px;
+}
+
+.login-form-forget .login-btn {
+  display: block;
+  padding: 10px 20px;
+  background-color: #4dc2f4;
+  border-radius: 25px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  width: 15rem;
+  margin-bottom: 2rem;
+}
+
+.login-form a {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.login-form .login-btn {
+  display: block;
+  padding: 10px 20px;
+  background-color: #4dc2f4;
+  border-radius: 25px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  width: 25rem;
+  margin-bottom: 2rem;
+}
+
+.login-form .google-signin-btn {
+  display: block;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: #0f0e0e;
+  text-decoration: none;
+  font-size: 16px;
+  width: 25rem;
+  background-color: white;
+  margin-bottom: 2rem;
+  transition: 0.3s;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5rem;
+}
+
+.google-signin-btn img {
+  max-width: 25px;
+  height: auto;
+  float: left;
+}
+
+.login-form .google-signin-btn:hover {
+  display: block;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  width: 25rem;
+  background-color: rgb(0, 0, 0);
+  margin-bottom: 2rem;
+  transition: 0.3s;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5rem;
+}
+
+.login-img img {
+  margin-bottom: 30px;
+}
+
+.logout-button {
+    background-color: #13bfe8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+
+.logout-button:hover {
+    background-color: #c62828;
+}
+
+.list-links.active {
+        color: #87fff1;
+        font-weight: bold;
+    }
+
+

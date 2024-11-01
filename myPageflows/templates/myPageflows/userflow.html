@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>User Flows</title>
+</head>
+<body>
+    <header class="pageflows-header">
+        <div class="pageflows-header-container">
+            <div class="pageflows-header-main">
+                <div class="pageflows-logo">
+                    <a href="{% url 'index' %}"><img src="/media/image/logo.png" alt="Page-Flows-Logo" /></a>
+                </div>
+                <div class="pageflow-searchbar">
+                    <i class="fa-solid fa-magnifying-glass icon"></i>
+                    <input type="text" placeholder="Search" />
+                </div>
+            </div>
+            <div class="pageflows-header-nav">
+                <ul>
+                    <li class="active"><a href="?category=IOS">IOS</a></li>
+                    <li class="active"><a href="?category=ANDROID">ANDROID</a></li>
+                    <li class="active"><a href="?category=WEB">WEB</a></li>
+                    <li class="active"><a href="?category=EMAILS">EMAILS</a></li>
+                </ul>
+            </div>
+            <div class="pageflows-header-right-menu">
+                <ul>
+                    {% if user.is_authenticated %}
+                        <div class="get-premium-menu">
+                            <span>Welcome, {{ user.username }}!</span>
+                        </div>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-button">Logout</button>
+                        </form>
+                    {% else %}
+                        <div class="get-premium-menu">
+                            <a href="{% url 'login' %}">SIGN IN</a>
+                        </div>
+                        <div class="get-premium-menu">
+                            <a href="#">GET PREMIUM</a>
+                        </div>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="pageflows-header-bottom-nav">
+            <div class="userflow-menu">
+                <ul class="userflow-menu-nav">
+                    <div class="userflow-menu-dropdown">
+                        <span>USER FLOWS</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <li><a href="/userflow/">USER FLOWS</a></li>
+                            <li><a href="/">PRODUCTS</a></li>
+                            <li class="active">UI ELEMENTS</li>
+                            <li class="active">SCREENS</li>
+                        </div>
+                    </div>
+                </ul>
+                <div class="main-navbar-menu">
+                    <ul class="main-navbar">
+                        <li class="active">
+                            <a href="#" id="filter-toggle">FILTERS &nbsp; &nbsp; &nbsp;</a>
+                            <i class="fa-solid fa-list-ul"></i>
+                        </li>
+                        <div id="filter-slide" class="filter-content">
+                            <div class="filter-row">
+                                <div class="filter-col">
+                                    {% if filter_user_flows %}
+                                        {% if user_flows_with_names_counts %}
+                                            {% for userflow in filter_user_flows %}
+                                                {% for count in user_flows_with_names_counts %}
+                                                    {% if count.name == userflow.name %}
+                                                        <div class="filter-item">
+                                                            <a href="?selected_name={{ userflow.name }}" style="text-decoration: none; list-style:none; color: black;">
+                                                                <span>{{ userflow.name }}</span>
+                                                            </a>
+                                                            <span style="text-decoration: none; list-style:none; color: gray;">{{ count.userflow_count }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <p>No user flows available.</p>
+                                        {% endif %}
+                                    {% else %}
+                                        <p>No user flows available.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% for item in nav_items %}
+                            <li class="active">
+                                <a href="?selected_name={{ item.name }}" class="nav-product-link" data-product-name="{{ item.name }}">{{ item.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="userflow-right-menu">
+                <ul>
+                    <li class="userflow-right-dropdown-open">
+                        <span>SORT</span>
+                        <i class="fa-solid fa-bars"></i>
+                        <div class="dropdown-content"></div>
+                        <ul>
+                            <li><a href="?sort=most_viewed">MOST VIEWED</a></li>
+                            <li><a href="?sort=recently_added">RECENTLY ADDED</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <section class="IOS-users">
+        <div class="pageflows-ios-user">
+            <h1 class="IOS">{{ selected_name }}</h1>
+            <p class="para">Learn from proven products</p>
+        </div>
+    </section>
+
+    <section class="main-onB">
+        {% for userflow in filter_user_flows %}
+            <section class="ONBOARDING">
+                <div class="services">
+                    <div class="onB">
+                        <a href="{% url 'user_flow_api' userflow.id %}">
+                            {% if userflow.logo %}
+                            <img src="{{ userflow.logo.url }}" alt="{{ userflow.name }} Logo">
+                            {% endif %}
+                            <div class="text-content">
+                                <h4>{{ userflow.name }}</h4>
+                                <p>{{ userflow.category }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-eye opa">{{ userflow.product.view_count }}</i>
+                    </div>
+                </div>
+
+                <section class="images">
+                    <div class="img">
+                        <div class="img1">
+                            {% if user.is_authenticated or user.is_staff %}
+                            <img src="{{ userflow.image.url }}" alt="{{ userflow.name }}" />
+                            {% else %}
+                            <img src="{{ userflow.image.url }}" alt="Locked Content" />
+                            <div class="overlay">
+                                <button class="buy-btn">Buy</button>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </section>
+            </section>
+        {% endfor %}
+    </section>
+
+    <footer class="footer">
+        <div class="footer-nav">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Submit A Request</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-copy">
+            <img src="/media/image/logo.png" alt="Logo" />
+            <div class="copy-text">
+                Design better user flows. Learn from proven products. <br />Pageflow © Copyright 2024. All rights reserved
+            </div>
+        </div>
+        <div class="links">
+            <p>Terms & Privacy</p>
+            <div class="link-icons">
+                <i class="fa-brands fa-x-twitter"></i>
+                <i class="fa-brands fa-linkedin"></i>
+                <i class="fa-brands fa-pinterest-p"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const filterToggle = document.getElementById("filter-toggle");
+        const filterSlide = document.getElementById("filter-slide");
+
+        filterToggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            filterSlide.style.display = filterSlide.style.display === "block" ? "none" : "block";
+        });
+
+        window.addEventListener("click", function (e) {
+            if (!filterSlide.contains(e.target) && !filterToggle.contains(e.target)) {
+                filterSlide.style.display = "none";
+            }
+        });
+
+        const navProductLinks = document.querySelectorAll('.nav-product-link');
+        navProductLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const selectedName = link.dataset.productTitle;
+                document.querySelector('.IOS').textContent = selectedName;
+            });
+        });
+    </script>
+</body>
+</html>
